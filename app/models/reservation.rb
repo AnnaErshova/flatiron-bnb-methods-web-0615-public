@@ -1,5 +1,5 @@
 class Reservation < ActiveRecord::Base
-  
+
   belongs_to :listing
   belongs_to :guest, :class_name => "User", :foreign_key => :guest_id
 
@@ -19,21 +19,21 @@ class Reservation < ActiveRecord::Base
   validate :valid_checkin_checkout
   def valid_checkin_checkout
     if (self.checkin && self.checkout) && (self.checkin > self.checkout)
-      errors.add(:reservation, "Checkin must be before checkout")
+      errors.add(:reservation, "Checkin must be before checkout.")
     end
   end
 
   validate :guest_is_not_host
   def guest_is_not_host
     if guest == host
-      errors.add(:reservation, "You cannot reserve your own listing")
+      errors.add(:reservation, "You cannot reserve your own listing.")
     end
   end
 
   validate :reservation_available
   def reservation_available
     if self.status == "pending"
-      errors.add(:reservation, "This reservation is not available")
+      errors.add(:reservation, "This reservation is not available.")
     end
   end
 

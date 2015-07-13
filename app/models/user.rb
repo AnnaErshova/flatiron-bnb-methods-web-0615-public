@@ -6,7 +6,10 @@ class User < ActiveRecord::Base
   has_many :reservations, :through => :listings
   has_many :trips, :foreign_key => 'guest_id', :class_name => "Reservation"
 
-  has_many :guests, through: :reservations, :foreign_key => 'guest_id'
+  has_many :guests, :through => :reservations, :foreign_key => 'guest_id'
+
+  has_many :hosts, :source => :listings, :foreign_key => 'guest_id'
+  # has_many :rooms,
 
 end # end class
 

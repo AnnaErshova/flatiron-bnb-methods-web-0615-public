@@ -1,7 +1,7 @@
 class Neighborhood < ActiveRecord::Base
 
   belongs_to :city
-  
+
   has_many :listings
   has_many :reservations, through: :listings
 
@@ -16,15 +16,26 @@ class Neighborhood < ActiveRecord::Base
   end
 
   def ratio_res_to_listings
-    if listings.count != 0 
-      reservations.count / listings.count
-    else 
-      0
-    end
+    count_listings != 0 ? calculate_ratio : 0
+  end
+
+  # helper method
+  def calculate_ratio
+    count_reservations / count_listings
   end
 
   def self.most_res
-    all.max_by {|n| n.reservations.count}
+    all.max_by {|n| n.count_reservations}
+  end
+
+  # helper method
+  def count_reservations
+    reservations.count
+  end
+
+  # helper method
+  def count_listings
+    listings.count
   end
 
 end
