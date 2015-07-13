@@ -8,7 +8,7 @@ class Listing < ActiveRecord::Base
   has_many :guests, :class_name => "User", :through => :reservations
 
   # validations : all the details need to be present
-  validates :address, :title, :description, :price, :neighborhood, :listing_type, presence: true
+  validates_presence_of :address, :title, :description, :price, :neighborhood, :listing_type
 
   # callbacks
   after_create :change_host_status_to_true 
@@ -33,7 +33,7 @@ class Listing < ActiveRecord::Base
 
   # instance method
   def average_review_rating
-    sum_reviews/count_reviews
+    sum_reviews / count_reviews
   end
 
     # helper method for average_review_rating
