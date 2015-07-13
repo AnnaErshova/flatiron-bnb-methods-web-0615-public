@@ -9,17 +9,10 @@ class Reservation < ActiveRecord::Base
 
   validates :checkin, :checkout, presence: true
 
-  validate :not_same_checkin_checkout
-  def not_same_checkin_checkout
-    if self.checkin == self.checkout
-      errors.add(:reservation, "Checkin cannot be same as checkout")
-    end
-  end
-
   validate :valid_checkin_checkout
   def valid_checkin_checkout
-    if (self.checkin && self.checkout) && (self.checkin > self.checkout)
-      errors.add(:reservation, "Checkin must be before checkout.")
+    if (self.checkin && self.checkout) && (self.checkin >= self.checkout)
+      errors.add(:reservation, "Checkin must be before checkout and they cannot be the same date.")
     end
   end
 
@@ -38,7 +31,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def duration
-    self.checkout-self.checkin # (should it be + 1 to accommodate for the extra day?)
+    self.checkout-self.checkin 
   end
 
   def total_price
