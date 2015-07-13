@@ -1,4 +1,5 @@
 class Reservation < ActiveRecord::Base
+  
   belongs_to :listing
   belongs_to :guest, :class_name => "User", :foreign_key => :guest_id
 
@@ -6,8 +7,7 @@ class Reservation < ActiveRecord::Base
 
   delegate :host, to: :listing
 
-  validates :checkin, presence: true
-  validates :checkout, presence: true
+  validates :checkin, :checkout, presence: true
 
   validate :not_same_checkin_checkout
   def not_same_checkin_checkout
